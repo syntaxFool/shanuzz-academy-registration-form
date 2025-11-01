@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shanuzz Academy - Follow-up Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border-left: 5px solid #3498db;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card.urgent {
+            border-left-color: #e74c3c;
+        }
+
+        .stat-card.warning {
+            border-left-color: #f39c12;
+        }
+
+        .stat-card.success {
+            border-left-color: #27ae60;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: white;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        select, input {
+            padding: 10px 15px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: white;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .table-container {
+            padding: 30px;
+            background: white;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #e1e8ed;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tbody tr:hover {
+            background: #e8f4f8;
+            transform: scale(1.01);
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e1e8ed;
+            font-size: 0.9rem;
+        }
+
+        .priority-high {
+            background: #fee !important;
+        }
+
+        .priority-medium {
+            background: #fff3cd !important;
+        }
+
+        .priority-low {
+            background: #d4edda !important;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .phone-number {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .location {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .call-btn {
+            background: #27ae60;
+            color: white;
+        }
+
+        .call-btn:hover {
+            background: #229954;
+            transform: translateY(-1px);
+        }
+
+        .reschedule-btn {
+            background: #f39c12;
+            color: white;
+        }
+
+        .reschedule-btn:hover {
+            background: #e67e22;
+            transform: translateY(-1px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            text-align: center;
+            padding: 30px;
+            color: #e74c3c;
+            background: #fee;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-container {
+                padding: 15px;
+            }
+            
+            th, td {
+                padding: 8px;
+                font-size: 0.85rem;
+            }
+        }
+
+        .export-section {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e1e8ed;
+            text-align: center;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Shanuzz Academy Follow-up Dashboard</h1>
+            <p>Track and manage hair model appointments that need follow-up calls</p>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card urgent">
+                <div class="stat-number" id="urgentCount">-</div>
+                <div class="stat-label">Urgent Follow-ups</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-number" id="pendingCount">-</div>
+                <div class="stat-label">Pending Bookings</div>
+            </div>
+            <div class="stat-card success">
+                <div class="stat-number" id="confirmedCount">-</div>
+                <div class="stat-label">Confirmed Services</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">-</div>
+                <div class="stat-label">Total Registrations</div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="serviceFilter">Service Type:</label>
+                    <select id="serviceFilter">
+                        <option value="">All Services</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="statusFilter">Booking Status:</label>
+                    <select id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="Yes">Confirmed</option>
+                        <option value="No">Not Confirmed</option>
+                        <option value="Pending">Pending</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="locationFilter">Location:</label>
+                    <select id="locationFilter">
+                        <option value="">All Locations</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="priorityFilter">Priority:</label>
+                    <select id="priorityFilter">
+                        <option value="">All Priorities</option>
+                        <option value="high">High (Overdue)</option>
+                        <option value="medium">Medium (Due Soon)</option>
+                        <option value="low">Low (Future)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <button class="refresh-btn" onclick="loadData()">🔄 Refresh Data</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="table-container">
+            <div id="loadingIndicator" class="loading">
+                <div class="loading-spinner"></div>
+                Loading dashboard data...
+            </div>
+
+            <div id="errorContainer" class="error" style="display: none;">
+                <h3>⚠️ Error Loading Data</h3>
+                <p id="errorMessage">Unable to load data from the server</p>
+                <button class="refresh-btn" onclick="loadData()">Try Again</button>
+            </div>
+
+            <div id="tableContainer" style="display: none;">
+                <div class="table-wrapper">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Priority</th>
+                                <th>Full Name</th>
+                                <th>Contact Info</th>
+                                <th>Service Booked</th>
+                                <th>Service Date</th>
+                                <th>Status</th>
+                                <th>Batch/Trainer</th>
+                                <th>How They Heard</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="noDataMessage" class="no-data" style="display: none;">
+                    <h3>📋 No Records Found</h3>
+                    <p>No records match your current filter criteria</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Section -->
+        <div class="export-section">
+            <h3 style="margin-bottom: 15px; color: #2c3e50;">📊 Export Options</h3>
+            <button class="export-btn" onclick="exportToCSV()">📄 Export to CSV</button>
+            <button class="export-btn" onclick="exportToPDF()">📑 Export to PDF</button>
+            <button class="export-btn" onclick="generateCallList()">📞 Generate Call List</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHcK1BazSJcfsEu6w02q-ODJ6kGqZyYebGqjNcPnW0brlJQruCtz6YBqk_41p3AqLq9NMa0lSNMcS3/pub?gid=1971498909&single=true&output=csv';
+        
+        let allData = [];
+        let filteredData = [];
+
+        // Parse CSV data
+        function parseCSV(text) {
+            const lines = text.split('\n').filter(line => line.trim());
+            if (lines.length === 0) return { headers: [], data: [] };
+            
+            function parseLine(line) {
+                const result = [];
+                let current = '';
+                let inQuotes = false;
+                
+                for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    const nextChar = line[i + 1];
+                    
+                    if (char === '"' && inQuotes && nextChar === '"') {
+                        current += '"';
+                        i++;
+                    } else if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        result.push(current.trim());
+                        current = '';
+                    } else {
+                        current += char;
+                    }
+                }
+                result.push(current.trim());
+                return result;
+            }
+            
+            const headers = parseLine(lines[0]);
+            const data = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseLine(lines[i]);
+                if (values.some(val => val.trim() !== '')) { // Skip empty rows
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        row[header] = values[index] || '';
+                    });
+                    data.push(row);
+                }
+            }
+            
+            return { headers, data };
+        }
+
+        // Calculate priority based on service date and booking status
+        function calculatePriority(row) {
+            const serviceDate = row['Date Of Service Booked'];
+            const bookingStatus = row['Booking Confirmed?'];
+            
+            if (!serviceDate || serviceDate.trim() === '') {
+                if (bookingStatus === 'No') return 'high';
+                return 'medium';
+            }
+            
+            const today = new Date();
+            const service = new Date(serviceDate);
+            
+            if (isNaN(service.getTime())) {
+                return 'medium';
+            }
+            
+            const daysDiff = Math.ceil((service - today) / (1000 * 60 * 60 * 24));
+            
+            if (bookingStatus === 'No' || bookingStatus === 'Pending') {
+                if (daysDiff < 0) return 'high'; // Overdue
+                if (daysDiff <= 7) return 'high'; // Due within a week
+                if (daysDiff <= 14) return 'medium'; // Due within two weeks
+            }
+            
+            if (daysDiff < 0 && bookingStatus !== 'Yes') return 'high';
+            if (daysDiff <= 3) return 'medium';
+            return 'low';
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            if (!dateString || dateString.trim() === '') return 'Not Set';
+            
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString;
+            
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        // Load and process data
+        async function loadData() {
+            try {
+                document.getElementById('loadingIndicator').style.display = 'block';
+                document.getElementById('errorContainer').style.display = 'none';
+                document.getElementById('tableContainer').style.display = 'none';
+                
+                console.log('Loading data from:', CSV_URL);
+                
+                const response = await fetch(CSV_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const csvText = await response.text();
+                console.log('CSV loaded, first 300 chars:', csvText.substring(0, 300));
+                
+                const { headers, data } = parseCSV(csvText);
+                console.log('Headers:', headers);
+                console.log('Data rows:', data.length);
+                
+                // Process data and add calculated fields
+                allData = data.map(row => {
+                    const priority = calculatePriority(row);
+                    return { ...row, priority };
+                });
+                
+                // Sort by priority and date
+                allData.sort((a, b) => {
+                    const priorityOrder = { high: 3, medium: 2, low: 1 };
+                    if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
+                        return priorityOrder[b.priority] - priorityOrder[a.priority];
+                    }
+                    
+                    const dateA = new Date(a['Date Of Service Booked'] || '9999-12-31');
+                    const dateB = new Date(b['Date Of Service Booked'] || '9999-12-31');
+                    return dateA - dateB;
+                });
+                
+                console.log('Processed data:', allData.length, 'records');
+                
+                // Update filters
+                updateFilters();
+                
+                // Apply current filters
+                applyFilters();
+                
+                // Update statistics
+                updateStatistics();
+                
+                document.getElementById('loadingIndicator').style.display = 'none';
+                document.getElementById('tableContainer').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('loadingIndicator').style.display = 'none';
+                document.getElementById('errorContainer').style.display = 'block';
+                document.getElementById('errorMessage').textContent = error.message;
+            }
+        }
+
+        // Update filter dropdowns
+        function updateFilters() {
+            // Service filter
+            const services = [...new Set(allData.map(row => row['Service Booked']).filter(s => s))].sort();
+            const serviceFilter = document.getElementById('serviceFilter');
+            serviceFilter.innerHTML = '<option value="">All Services</option>';
+            services.forEach(service => {
+                serviceFilter.innerHTML += `<option value="${service}">${service}</option>`;
+            });
+
+            // Location filter
+            const locations = [...new Set(allData.map(row => row['Location - State']).filter(l => l))].sort();
+            const locationFilter = document.getElementById('locationFilter');
+            locationFilter.innerHTML = '<option value="">All Locations</option>';
+            locations.forEach(location => {
+                locationFilter.innerHTML += `<option value="${location}">${location}</option>`;
+            });
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const serviceFilter = document.getElementById('serviceFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const locationFilter = document.getElementById('locationFilter').value;
+            const priorityFilter = document.getElementById('priorityFilter').value;
+
+            filteredData = allData.filter(row => {
+                if (serviceFilter && row['Service Booked'] !== serviceFilter) return false;
+                if (statusFilter && row['Booking Confirmed?'] !== statusFilter) return false;
+                if (locationFilter && row['Location - State'] !== locationFilter) return false;
+                if (priorityFilter && row.priority !== priorityFilter) return false;
+                return true;
+            });
+
+            renderTable();
+        }
+
+        // Render the data table
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            const noDataMessage = document.getElementById('noDataMessage');
+            
+            if (filteredData.length === 0) {
+                tbody.innerHTML = '';
+                noDataMessage.style.display = 'block';
+                return;
+            }
+            
+            noDataMessage.style.display = 'none';
+            
+            tbody.innerHTML = filteredData.map(row => {
+                const priorityClass = `priority-${row.priority}`;
+                const statusClass = getStatusClass(row['Booking Confirmed?']);
+                
+                return `
+                    <tr class="${priorityClass}">
+                        <td>
+                            <span class="status-badge status-${row.priority === 'high' ? 'cancelled' : row.priority === 'medium' ? 'pending' : 'confirmed'}">
+                                ${row.priority.toUpperCase()}
+                            </span>
+                        </td>
+                        <td>
+                            <strong>${row['Full Name'] || 'N/A'}</strong>
+                            ${row['Student Name'] && row['Student Name'] !== row['Full Name'] ? 
+                                `<br><small>Student: ${row['Student Name']}</small>` : ''}
+                        </td>
+                        <td>
+                            <div class="contact-info">
+                                <span class="phone-number">${row['Contact Number'] || 'No contact'}</span>
+                                <span class="location">${row['Location - State'] || 'No location'}</span>
+                            </div>
+                        </td>
+                        <td>${row['Service Booked'] || 'Not specified'}</td>
+                        <td>${formatDate(row['Date Of Service Booked'])}</td>
+                        <td>
+                            <span class="status-badge ${statusClass}">
+                                ${row['Booking Confirmed?'] || 'Unknown'}
+                            </span>
+                        </td>
+                        <td>
+                            ${row['Batch No.'] ? `Batch: ${row['Batch No.']}` : ''}<br>
+                            ${row['Trainer Name'] ? `Trainer: ${row['Trainer Name']}` : ''}
+                        </td>
+                        <td>${row['How did you hear about us?'] || 'N/A'}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn call-btn" onclick="makeCall('${row['Contact Number']}', '${row['Full Name']}')">
+                                    📞 Call
+                                </button>
+                                <button class="action-btn reschedule-btn" onclick="reschedule('${row['Reff ID']}')">
+                                    📅 Reschedule
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Get status CSS class
+        function getStatusClass(status) {
+            switch(status) {
+                case 'Yes': return 'status-confirmed';
+                case 'No': return 'status-cancelled';
+                case 'Pending': return 'status-pending';
+                default: return 'status-pending';
+            }
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const urgent = allData.filter(row => row.priority === 'high').length;
+            const pending = allData.filter(row => row['Booking Confirmed?'] === 'Pending' || row['Booking Confirmed?'] === 'No').length;
+            const confirmed = allData.filter(row => row['Booking Confirmed?'] === 'Yes').length;
+            const total = allData.length;
+
+            document.getElementById('urgentCount').textContent = urgent;
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('confirmedCount').textContent = confirmed;
+            document.getElementById('totalCount').textContent = total;
+        }
+
+        // Action functions
+        function makeCall(phoneNumber, name) {
+            if (!phoneNumber || phoneNumber === 'No contact') {
+                alert('No contact number available for this person');
+                return;
+            }
+            
+            const confirmed = confirm(`Call ${name} at ${phoneNumber}?`);
+            if (confirmed) {
+                // On mobile devices, this will open the phone dialer
+                window.location.href = `tel:${phoneNumber}`;
+            }
+        }
+
+        function reschedule(refId) {
+            const newDate = prompt('Enter new service date (YYYY-MM-DD):');
+            if (newDate) {
+                alert(`Reschedule request noted for ${refId}. New date: ${newDate}`);
+                // Here you could integrate with your backend to update the record
+            }
+        }
+
+        // Export functions
+        function exportToCSV() {
+            if (filteredData.length === 0) {
+                alert('No data to export');
+                return;
+            }
+
+            const headers = ['Priority', 'Full Name', 'Contact Number', 'Service Booked', 'Service Date', 'Status', 'Batch No.', 'Trainer Name', 'Location', 'How They Heard'];
+            const csvContent = [
+                headers.join(','),
+                ...filteredData.map(row => [
+                    row.priority,
+                    `"${row['Full Name'] || ''}"`,
+                    `"${row['Contact Number'] || ''}"`,
+                    `"${row['Service Booked'] || ''}"`,
+                    row['Date Of Service Booked'] || '',
+                    row['Booking Confirmed?'] || '',
+                    `"${row['Batch No.'] || ''}"`,
+                    `"${row['Trainer Name'] || ''}"`,
+                    `"${row['Location - State'] || ''}"`,
+                    `"${row['How did you hear about us?'] || ''}"`
+                ].join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `follow-up-report-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function exportToPDF() {
+            alert('PDF export feature coming soon!');
+        }
+
+        function generateCallList() {
+            const highPriority = filteredData.filter(row => row.priority === 'high' && row['Contact Number']);
+            
+            if (highPriority.length === 0) {
+                alert('No high priority contacts found');
+                return;
+            }
+
+            const callList = highPriority.map((row, index) => 
+                `${index + 1}. ${row['Full Name']} - ${row['Contact Number']} (${row['Service Booked']})`
+            ).join('\n');
+
+            const blob = new Blob([`URGENT CALL LIST - ${new Date().toLocaleDateString()}\n\n${callList}`], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `urgent-call-list-${new Date().toISOString().split('T')[0]}.txt`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Event listeners
+        document.getElementById('serviceFilter').addEventListener('change', applyFilters);
+        document.getElementById('statusFilter').addEventListener('change', applyFilters);
+        document.getElementById('locationFilter').addEventListener('change', applyFilters);
+        document.getElementById('priorityFilter').addEventListener('change', applyFilters);
+
+        // Initial load
+        window.addEventListener('load', loadData);
+        
+        // Auto-refresh every 5 minutes
+        setInterval(loadData, 300000);
+    </script>
+</body>
+</html>

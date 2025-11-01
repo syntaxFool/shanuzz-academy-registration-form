@@ -50,6 +50,167 @@
             border: 2px solid transparent;
         }
 
+        /* Login Card Styles */
+        .login-card {
+            padding: 30px 20px;
+            position: relative;
+            z-index: 1;
+            background: #f8f9fa;
+            margin: 20px;
+            border-radius: 12px;
+            border: 2px dashed #34495e;
+            transform: rotate(0.3deg);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transform: rotate(-0.5deg);
+            text-shadow: 2px 2px 0px rgba(52, 152, 219, 0.1);
+        }
+
+        .login-header p {
+            color: #7f8c8d;
+            font-style: italic;
+            transform: rotate(0.2deg);
+        }
+
+        .login-group {
+            margin-bottom: 20px;
+        }
+
+        .login-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transform: rotate(-0.3deg);
+        }
+
+        .login-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #34495e;
+            background: #fefefe;
+            font-size: 1rem;
+            font-family: 'Kalam', cursive;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            transform: rotate(0.1deg);
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            background: #fff;
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 
+                0 0 0 3px rgba(52, 152, 219, 0.2),
+                4px 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: #fff;
+            padding: 15px 30px;
+            border: 3px solid #34495e;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Kalam', cursive;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            transform: rotate(-0.5deg);
+            box-shadow: 
+                4px 4px 0px #34495e,
+                6px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-btn::before {
+            content: '🔐';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .login-btn:hover {
+            transform: rotate(0deg) translateY(-3px);
+            box-shadow: 
+                6px 6px 0px #34495e,
+                8px 8px 16px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
+
+        .login-btn:active {
+            transform: rotate(-0.2deg) translateY(-1px);
+            box-shadow: 
+                2px 2px 0px #34495e,
+                4px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+            border: 2px dashed;
+            transform: rotate(-0.2deg);
+            font-family: 'Kalam', cursive;
+        }
+
+        .login-message.success {
+            background-color: rgba(39, 174, 96, 0.15);
+            color: #27ae60;
+            border-color: #27ae60;
+        }
+
+        .login-message.error {
+            background-color: rgba(231, 76, 60, 0.15);
+            color: #c0392b;
+            border-color: #c0392b;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #bdc3c7;
+        }
+
+        .login-footer p {
+            color: #7f8c8d;
+            font-style: italic;
+            font-size: 0.9rem;
+            transform: rotate(0.3deg);
+        }
+
         .container::before {
             content: '';
             position: absolute;
@@ -115,6 +276,55 @@
             border-bottom: 12px solid #f39c12;
             opacity: 0.4;
             transform: rotate(15deg);
+        }
+
+        .dashboard-btn {
+            position: absolute;
+            top: 15px;
+            right: 100px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: 2px solid #34495e;
+            border-radius: 6px;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Kalam', cursive;
+            transform: rotate(-1deg);
+            z-index: 10;
+            text-decoration: none;
+        }
+
+        .dashboard-btn:hover {
+            transform: rotate(0deg) translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: 2px solid #34495e;
+            border-radius: 6px;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Kalam', cursive;
+            transform: rotate(1deg);
+            z-index: 10;
+        }
+
+        .logout-btn:hover {
+            transform: rotate(0deg) translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
         }
 
         .header h1 {
@@ -693,9 +903,41 @@
         <div class="header">
             <h1>Shanuzz Academy</h1>
             <p>Model Registration Form</p>
+            <a id="dashboardBtn" class="dashboard-btn" href="https://script.google.com/macros/s/AKfycbyBackw-_A4Hvk8xlxeK699Z6UoUNv9FlxbGSu4mF8Pqovnjo6DvlOfMcfzui3P6Qbd/exec?page=dashboard" target="_blank" style="display: none;">
+                📊 Dashboard
+            </a>
+            <button id="logoutBtn" class="logout-btn" onclick="logout()" style="display: none;">
+                Logout
+            </button>
+        </div>
+
+        <!-- Login Card -->
+        <div id="loginCard" class="login-card">
+            <div class="login-header">
+                <h2>Login Required</h2>
+                <p>Please enter your credentials to access the registration form</p>
+            </div>
+            <form id="loginForm">
+                <div class="login-group">
+                    <label for="username">Username <span class="required">*</span></label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="login-group">
+                    <label for="pin">PIN <span class="required">*</span></label>
+                    <input type="password" id="pin" name="pin" required>
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">
+                    Login
+                    <span id="loginLoading" class="loading" style="display: none;"></span>
+                </button>
+                <div id="loginMessage" class="login-message"></div>
+            </form>
+            <div class="login-footer">
+                <p>Don't have access? Contact admin to add your credentials.</p>
+            </div>
         </div>
         
-        <div class="form-container">
+        <div class="form-container" id="registrationContainer" style="display: none;">
             <div id="message" class="message"></div>
             
             <form id="registrationForm">
@@ -706,11 +948,11 @@
                             <input type="text" id="fullName" name="fullName" required>
                         </div>
                         <div>
-                            <label for="email">Email Address <span class="required">*</span></label>
-                            <input type="email" id="email" name="email" readonly placeholder="Loading user email..." 
+                            <label for="user">User <span class="required">*</span></label>
+                            <input type="text" id="user" name="user" readonly placeholder="Will be filled after login..." 
                                    style="background-color: #f0f0f0; cursor: not-allowed;">
                             <small style="color: #666; font-size: 0.85em; display: block; margin-top: 5px;">
-                                Email will be automatically detected from your Google Account
+                                User will be automatically filled after successful login
                             </small>
                         </div>
                     </div>
@@ -829,7 +1071,7 @@
         </div>
         <div id="successDetails" class="success-details">
             <p><strong>Submitted:</strong> <span id="submitTime"></span></p>
-            <p><strong>Email:</strong> <span id="submitEmail"></span></p>
+            <p><strong>User:</strong> <span id="submitEmail"></span></p>
             <p><strong>Reference:</strong> <span id="submitRef"></span></p>
         </div>
         <button class="success-close" onclick="closeSuccessCard()">Continue</button>
@@ -841,6 +1083,140 @@
         
         // CSV URL for autocomplete data
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHcK1BazSJcfsEu6w02q-ODJ6kGqZyYebGqjNcPnW0brlJQruCtz6YBqk_41p3AqLq9NMa0lSNMcS3/pub?gid=5180207&single=true&output=csv';
+        
+        // CSV URL for user authentication (with headers: name, username, pin)
+        const AUTH_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHcK1BazSJcfsEu6w02q-ODJ6kGqZyYebGqjNcPnW0brlJQruCtz6YBqk_41p3AqLq9NMa0lSNMcS3/pub?gid=1544321957&single=true&output=csv';
+
+        // Global variable to store authenticated user data
+        let currentUser = null;
+
+        // Function to validate user credentials against CSV
+        async function validateCredentials(username, pin) {
+            try {
+                console.log('Validating credentials for username:', username);
+                
+                const response = await fetch(AUTH_CSV_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const csvText = await response.text();
+                console.log('Authentication CSV loaded, first 200 chars:', csvText.substring(0, 200));
+                
+                const { headers, data } = parseCSV(csvText);
+                console.log('Auth CSV headers:', headers);
+                console.log('Auth CSV data rows:', data.length);
+                
+                // Find matching user
+                const user = data.find(row => {
+                    const rowUsername = row.username?.toString().trim();
+                    const rowPin = row.pin?.toString().trim();
+                    const inputUsername = username.trim();
+                    const inputPin = pin.trim();
+                    
+                    console.log('Comparing:', { rowUsername, rowPin, inputUsername, inputPin });
+                    
+                    return rowUsername === inputUsername && rowPin === inputPin;
+                });
+                
+                if (user) {
+                    console.log('User found:', user);
+                    return {
+                        success: true,
+                        user: {
+                            name: user.name?.trim() || '',
+                            username: user.username?.trim() || '',
+                            pin: user.pin?.trim() || ''
+                        }
+                    };
+                } else {
+                    console.log('No matching user found');
+                    return {
+                        success: false,
+                        message: 'Invalid username or PIN'
+                    };
+                }
+                
+            } catch (error) {
+                console.error('Error validating credentials:', error);
+                return {
+                    success: false,
+                    message: 'Error checking credentials. Please try again.'
+                };
+            }
+        }
+
+        // Function to handle login form submission
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const pin = document.getElementById('pin').value.trim();
+            const loginBtn = document.getElementById('loginBtn');
+            const loginLoading = document.getElementById('loginLoading');
+            const loginMessage = document.getElementById('loginMessage');
+            
+            if (!username || !pin) {
+                showLoginMessage('Please enter both username and PIN', 'error');
+                return;
+            }
+            
+            // Show loading state
+            loginBtn.disabled = true;
+            loginLoading.style.display = 'inline-block';
+            loginMessage.style.display = 'none';
+            
+            // Validate credentials
+            validateCredentials(username, pin)
+                .then(result => {
+                    loginBtn.disabled = false;
+                    loginLoading.style.display = 'none';
+                    
+                    if (result.success) {
+                        currentUser = result.user;
+                        showLoginMessage('Login successful! Redirecting...', 'success');
+                        
+                        // Fill user field with the authenticated user's name
+                        const userField = document.getElementById('user');
+                        userField.value = currentUser.name;
+                        
+                        // Show registration form after successful login
+                        setTimeout(() => {
+                            document.getElementById('loginCard').style.display = 'none';
+                            document.getElementById('registrationContainer').style.display = 'block';
+                            document.getElementById('logoutBtn').style.display = 'block';
+                            document.getElementById('dashboardBtn').style.display = 'block';
+                            
+                            // Setup form persistence and load other data
+                            setupFormPersistence();
+                            loadAutocompleteData();
+                        }, 1500);
+                    } else {
+                        showLoginMessage(result.message || 'Invalid credentials. Contact admin to add your access.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Login error:', error);
+                    loginBtn.disabled = false;
+                    loginLoading.style.display = 'none';
+                    showLoginMessage('Login failed. Please try again.', 'error');
+                });
+        }
+
+        // Function to show login messages
+        function showLoginMessage(message, type) {
+            const loginMessage = document.getElementById('loginMessage');
+            loginMessage.textContent = message;
+            loginMessage.className = `login-message ${type}`;
+            loginMessage.style.display = 'block';
+            
+            // Auto-hide success messages
+            if (type === 'success') {
+                setTimeout(() => {
+                    loginMessage.style.display = 'none';
+                }, 3000);
+            }
+        }
 
         // Function to parse CSV data with better handling for quoted fields
         function parseCSV(text) {
@@ -1017,86 +1393,16 @@
             }
         }
         
-        // Function to load user email from backend using JSONP to avoid CORS
-        function loadUserEmail() {
-            try {
-                // Check if SCRIPT_URL is configured
-                if (!SCRIPT_URL || SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-                    throw new Error('Google Apps Script URL not configured yet');
-                }
-                
-                console.log('Loading user email from backend...');
-                
-                // Create a unique callback name
-                const callbackName = 'emailCallback_' + Date.now();
-                
-                // Create the callback function
-                window[callbackName] = function(result) {
-                    try {
-                        if (result.success && result.email) {
-                            document.getElementById('email').value = result.email;
-                            document.getElementById('email').placeholder = result.email;
-                            console.log('User email loaded:', result.email);
-                        } else {
-                            throw new Error(result.message || 'Failed to get user email');
-                        }
-                    } catch (error) {
-                        console.error('Error in email callback:', error);
-                        handleEmailLoadError(error);
-                    } finally {
-                        // Cleanup
-                        document.head.removeChild(script);
-                        delete window[callbackName];
-                    }
-                };
-                
-                // Create script tag for JSONP
-                const script = document.createElement('script');
-                script.src = SCRIPT_URL + '?action=getUserEmail&callback=' + callbackName;
-                script.onerror = function() {
-                    console.error('Failed to load user email script');
-                    handleEmailLoadError(new Error('Failed to load user email script'));
-                    document.head.removeChild(script);
-                    delete window[callbackName];
-                };
-                
-                document.head.appendChild(script);
-                
-            } catch (error) {
-                console.error('Error setting up email loading:', error);
-                handleEmailLoadError(error);
-            }
-        }
+
         
-        // Function to handle email loading errors
-        function handleEmailLoadError(error) {
-            console.error('Error loading user email:', error);
-            
-            // Fallback: Make email field editable
-            const emailField = document.getElementById('email');
-            emailField.placeholder = 'Enter your email address';
-            emailField.style.backgroundColor = '#ffffff';
-            emailField.style.cursor = 'text';
-            emailField.readOnly = false;
-            emailField.required = true;
-            
-            // Update the help text
-            const helpText = emailField.nextElementSibling;
-            if (helpText && helpText.tagName === 'SMALL') {
-                if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-                    helpText.textContent = 'Please configure Google Apps Script URL first, then email will be auto-detected';
-                    helpText.style.color = '#dc3545';
-                } else {
-                    helpText.textContent = 'Auto-detection failed. Please enter your email manually.';
-                    helpText.style.color = '#856404';
-                }
-            }
-        }
-        
-        // Load autocomplete data and user email when page loads
+        // Load page and setup login
         window.addEventListener('load', function() {
-            loadAutocompleteData();
-            loadUserEmail();
+            // Show login card first
+            document.getElementById('loginCard').style.display = 'block';
+            document.getElementById('registrationContainer').style.display = 'none';
+            
+            // Setup login form event listener
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
         });
 
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
@@ -1122,8 +1428,17 @@
                     data[key] = value;
                 }
                 
-                // Validate required fields (including email)
-                const requiredFields = ['fullName', 'email', 'contactNumber', 'location'];
+                // Check if user is authenticated
+                if (!currentUser) {
+                    throw new Error('Please log in first to submit the form');
+                }
+                
+                // Add user data to form data
+                data.user = currentUser.name;
+                data.username = currentUser.username;
+                
+                // Validate required fields (including user)
+                const requiredFields = ['fullName', 'user', 'contactNumber', 'location'];
                 const missingFields = requiredFields.filter(field => !data[field]);
                 
                 if (missingFields.length > 0) {
@@ -1143,10 +1458,11 @@
                         // Show success card with animation
                         showSuccessCard(result, data);
                         
-                        // Reset form after delay
+                        // Reset form after delay but keep user logged in
                         setTimeout(() => {
                             document.getElementById('registrationForm').reset();
-                            loadUserEmail();
+                            // Keep user field populated with current user
+                            document.getElementById('user').value = currentUser.name;
                         }, 500);
                     } else {
                         // Error message
@@ -1236,11 +1552,31 @@
             }
         }
 
+        // Add logout functionality
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginCard').style.display = 'block';
+            document.getElementById('registrationContainer').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'none';
+            document.getElementById('dashboardBtn').style.display = 'none';
+            document.getElementById('loginForm').reset();
+            document.getElementById('registrationForm').reset();
+            
+            // Clear login messages
+            const loginMessage = document.getElementById('loginMessage');
+            loginMessage.style.display = 'none';
+        }
+
         // Auto-fill student name with full name if empty
-        document.getElementById('fullName').addEventListener('blur', function() {
-            const studentNameField = document.getElementById('studentName');
-            if (!studentNameField.value && this.value) {
-                studentNameField.value = this.value;
+        document.addEventListener('DOMContentLoaded', function() {
+            const fullNameField = document.getElementById('fullName');
+            if (fullNameField) {
+                fullNameField.addEventListener('blur', function() {
+                    const studentNameField = document.getElementById('studentName');
+                    if (studentNameField && !studentNameField.value && this.value) {
+                        studentNameField.value = this.value;
+                    }
+                });
             }
         });
 
@@ -1260,35 +1596,41 @@
             });
         });
 
-        // Local storage for form data persistence
-        const form = document.getElementById('registrationForm');
-        const formInputs = form.querySelectorAll('input, select, textarea');
+        // Local storage for form data persistence (setup after login)
+        function setupFormPersistence() {
+            const form = document.getElementById('registrationForm');
+            const formInputs = form.querySelectorAll('input, select, textarea');
 
-        // Save form data to localStorage
-        formInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                localStorage.setItem('shanuzz_form_' + this.name, this.value);
-            });
-        });
-
-        // Load saved form data on page load
-        window.addEventListener('load', function() {
+            // Save form data to localStorage (excluding user field)
             formInputs.forEach(input => {
-                const savedValue = localStorage.getItem('shanuzz_form_' + input.name);
-                if (savedValue && input.type !== 'checkbox') {
-                    input.value = savedValue;
-                } else if (savedValue && input.type === 'checkbox') {
-                    input.checked = savedValue === 'Accepted';
+                if (input.id !== 'user') { // Don't save user field to local storage
+                    input.addEventListener('change', function() {
+                        localStorage.setItem('shanuzz_form_' + this.name, this.value);
+                    });
                 }
             });
-        });
 
-        // Clear saved data on successful submission
-        form.addEventListener('submit', function() {
+            // Load saved form data when registration form is shown
             formInputs.forEach(input => {
-                localStorage.removeItem('shanuzz_form_' + input.name);
+                if (input.id !== 'user') { // Don't load user field from local storage
+                    const savedValue = localStorage.getItem('shanuzz_form_' + input.name);
+                    if (savedValue && input.type !== 'checkbox') {
+                        input.value = savedValue;
+                    } else if (savedValue && input.type === 'checkbox') {
+                        input.checked = savedValue === 'Accepted';
+                    }
+                }
             });
-        });
+
+            // Clear saved data on successful submission
+            form.addEventListener('submit', function() {
+                formInputs.forEach(input => {
+                    if (input.id !== 'user') {
+                        localStorage.removeItem('shanuzz_form_' + input.name);
+                    }
+                });
+            });
+        }
 
         // Success Card Functions
         function showSuccessCard(result, formData) {
@@ -1302,7 +1644,7 @@
             
             // Update success card content
             submitTime.textContent = new Date().toLocaleString();
-            submitEmail.textContent = formData.email || 'Not provided';
+            submitEmail.textContent = formData.user || 'Not provided';
             submitRef.textContent = refNumber;
             
             // Show success card with animation
