@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: 'Kalam', 'Comic Sans MS', cursive;
+            font-family: 'Roboto', Arial, sans-serif;
             line-height: 1.6;
             color: #2c3e50;
             background: #f8f6f0;
@@ -50,16 +50,22 @@
             border: 2px solid transparent;
         }
 
-        /* Login Card Styles */
-        .login-card {
+        /* Unified Card Styles (Sketch Paper Look) */
+        .login-card,
+        .form-container,
+        .success-card,
+        .saving-content {
             padding: 30px 20px;
             position: relative;
             z-index: 1;
-            background: #f8f9fa;
-            margin: 20px;
-            border-radius: 12px;
-            border: 2px dashed #34495e;
-            transform: rotate(0.3deg);
+            background: #fdfcf8;
+            margin: 20px auto;
+            border-radius: 14px;
+            border: 2.5px dashed #34495e;
+            box-shadow: 0 6px 18px rgba(44, 62, 80, 0.13), 0 1.5px 0 #d4af37 inset;
+            transform: rotate(-0.7deg);
+            font-family: 'Roboto', Arial, sans-serif;
+            max-width: 480px;
         }
 
         .login-header {
@@ -73,8 +79,9 @@
             margin-bottom: 10px;
             font-weight: 700;
             letter-spacing: 1px;
-            transform: rotate(-0.5deg);
-            text-shadow: 2px 2px 0px rgba(52, 152, 219, 0.1);
+            transform: rotate(-1deg);
+            text-shadow: 2px 2px 0px rgba(52, 152, 219, 0.08);
+            font-family: 'Roboto', Arial, sans-serif;
         }
 
         .login-header p {
@@ -103,7 +110,7 @@
             border: 2px solid #34495e;
             background: #fefefe;
             font-size: 1rem;
-            font-family: 'Kalam', cursive;
+            font-family: 'Roboto', Arial, sans-serif;
             transition: all 0.3s ease;
             border-radius: 8px;
             transform: rotate(0.1deg);
@@ -128,7 +135,7 @@
             border-radius: 12px;
             font-size: 1.1rem;
             font-weight: 700;
-            font-family: 'Kalam', cursive;
+            font-family: 'Roboto', Arial, sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
@@ -182,7 +189,7 @@
             display: none;
             border: 2px dashed;
             transform: rotate(-0.2deg);
-            font-family: 'Kalam', cursive;
+            font-family: 'Roboto', Arial, sans-serif;
         }
 
         .login-message.success {
@@ -392,7 +399,7 @@
             border: 2px solid #34495e;
             background: #fefefe;
             font-size: 1rem;
-            font-family: 'Kalam', cursive;
+            font-family: 'Roboto', Arial, sans-serif;
             transition: all 0.3s ease;
             border-radius: 8px;
             position: relative;
@@ -481,7 +488,7 @@
             border-radius: 12px;
             font-size: 1.1rem;
             font-weight: 700;
-            font-family: 'Kalam', cursive;
+            font-family: 'Roboto', Arial, sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
@@ -535,7 +542,7 @@
             display: none;
             border: 2px dashed;
             transform: rotate(-0.3deg);
-            font-family: 'Kalam', cursive;
+            font-family: 'Roboto', Arial, sans-serif;
             position: relative;
         }
 
@@ -605,13 +612,12 @@
             text-align: center;
             padding: 30px;
             background: #fdfcf8;
-            border-radius: 8px;
-            box-shadow: 
-                0 8px 32px rgba(139, 69, 19, 0.2),
-                0 16px 64px rgba(139, 69, 19, 0.1);
-            border: 2px solid #d4af37;
-            max-width: 300px;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(44, 62, 80, 0.13), 0 1.5px 0 #d4af37 inset;
+            border: 2.5px dashed #34495e;
+            max-width: 480px;
             width: 90%;
+            font-family: 'Roboto', Arial, sans-serif;
         }
 
         .saving-spinner {
@@ -643,21 +649,19 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8) rotate(-1deg);
-            background: #fefefe;
-            border-radius: 15px;
+            background: #fdfcf8;
+            border-radius: 14px;
             padding: 40px 30px;
             text-align: center;
-            box-shadow: 
-                6px 6px 0px #34495e,
-                8px 8px 20px rgba(0, 0, 0, 0.2);
-            border: 3px solid #27ae60;
+            box-shadow: 0 6px 18px rgba(44, 62, 80, 0.13), 0 1.5px 0 #27ae60 inset;
+            border: 2.5px dashed #27ae60;
             z-index: 1001;
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            max-width: 420px;
+            max-width: 480px;
             width: 90%;
-            font-family: 'Kalam', cursive;
+            font-family: 'Roboto', Arial, sans-serif;
         }
 
         .success-card.active {
@@ -866,8 +870,8 @@
             opacity: 0.3;
         }
 
-        /* Add Google Fonts for handwritten feel */
-        @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
+    /* Add Google Fonts for Roboto only */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
         /* Sketch paper texture */
         .container {

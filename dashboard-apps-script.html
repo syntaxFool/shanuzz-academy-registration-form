@@ -206,16 +206,18 @@
             font-size: 0.9rem;
         }
 
-        .priority-high {
-            background: #fee !important;
+        /* Row coloring based on Action Required */
+        .action-low {
+            background: #fff59d !important; /* stronger yellow */
         }
-
-        .priority-medium {
-            background: #fff3cd !important;
+        .action-medium {
+            background: #ffb74d !important; /* stronger orange */
         }
-
-        .priority-low {
-            background: #d4edda !important;
+        .action-high {
+            background: #ff8a80 !important; /* stronger red */
+        }
+        .action-under30 {
+            background: #b39ddb !important; /* stronger purple */
         }
 
         .status-badge {
@@ -445,7 +447,6 @@
                     <table id="dataTable">
                         <thead>
                             <tr>
-                                <th>Priority</th>
                                 <th>Full Name</th>
                                 <th>Contact Info</th>
                                 <th>Last Service</th>
@@ -455,6 +456,7 @@
                                 <th>Student/Trainer</th>
                                 <th>Action Required</th>
                                 <th>Actions</th>
+                                <!-- Removed Priority column -->
                             </tr>
                         </thead>
                         <tbody id="tableBody">
@@ -534,60 +536,143 @@
                 document.getElementById('loadingIndicator').style.display = 'block';
                 document.getElementById('errorContainer').style.display = 'none';
                 document.getElementById('tableContainer').style.display = 'none';
-                
-                console.log('Loading data from Google Apps Script...');
-                
-                // Call Google Apps Script function
-                google.script.run
-                    .withSuccessHandler(function(data) {
-                        console.log('Data received:', data.length, 'records');
-                        
-                        // Process data and add calculated fields
-                        allData = data.map(row => {
-                            const priority = calculatePriority(row);
-                            return { ...row, priority };
-                        });
-                        
-                        // Sort by priority and date
-                        allData.sort((a, b) => {
-                            const priorityOrder = { high: 3, medium: 2, low: 1 };
-                            if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
-                                return priorityOrder[b.priority] - priorityOrder[a.priority];
-                            }
-                            
-                            const dateA = new Date(a['Last Date Of Service Booked'] || '9999-12-31');
-                            const dateB = new Date(b['Last Date Of Service Booked'] || '9999-12-31');
-                            return dateA - dateB;
-                        });
-                        
-                        console.log('Processed data:', allData.length, 'records');
-                        
-                        // Update filters
-                        updateFilters();
-                        
-                        // Apply current filters
-                        applyFilters();
-                        
-                        // Update statistics
-                        updateStatistics();
-                        
-                        document.getElementById('loadingIndicator').style.display = 'none';
-                        document.getElementById('tableContainer').style.display = 'block';
-                    })
-                    .withFailureHandler(function(error) {
-                        console.error('Error loading data:', error);
-                        document.getElementById('loadingIndicator').style.display = 'none';
-                        document.getElementById('errorContainer').style.display = 'block';
-                        document.getElementById('errorMessage').textContent = error.message || 'Failed to load data';
-                    })
-                    .getDashboardData();
-                
+
+                // Let spinner show before heavy work
+                setTimeout(function() {
+                    console.log('Loading data from Google Apps Script...');
+
+                    // Call Google Apps Script function
+                    google.script.run
+                        .withSuccessHandler(function(data) {
+                            console.log('Data received:', data.length, 'records');
+
+                            // Process data and add calculated fields
+                            allData = data.map(row => {
+                                const priority = calculatePriority(row);
+                                return { ...row, priority };
+                            });
+
+                            // Sort by priority and date
+                            allData.sort((a, b) => {
+                                const priorityOrder = { high: 3, medium: 2, low: 1 };
+                                if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
+                                    return priorityOrder[b.priority] - priorityOrder[a.priority];
+                                }
+                                const dateA = new Date(a['Last Date Of Service Booked'] || '9999-12-31');
+                                const dateB = new Date(b['Last Date Of Service Booked'] || '9999-12-31');
+                                return dateA - dateB;
+                            });
+
+                            console.log('Processed data:', allData.length, 'records');
+
+                            // Update filters
+                            updateFilters();
+
+                            // Apply current filters and render table in batches for large data
+                            applyFiltersBatched();
+
+                            // Update statistics
+                            updateStatistics();
+
+                            document.getElementById('loadingIndicator').style.display = 'none';
+                            document.getElementById('tableContainer').style.display = 'block';
+                        })
+                        .withFailureHandler(function(error) {
+                            console.error('Error loading data:', error);
+                            document.getElementById('loadingIndicator').style.display = 'none';
+                            document.getElementById('errorContainer').style.display = 'block';
+                            document.getElementById('errorMessage').textContent = error.message || 'Failed to load data';
+                        })
+                        .getDashboardData();
+                }, 10);
             } catch (error) {
                 console.error('Error in loadData:', error);
                 document.getElementById('loadingIndicator').style.display = 'none';
                 document.getElementById('errorContainer').style.display = 'block';
                 document.getElementById('errorMessage').textContent = error.message;
             }
+        }
+
+        // Batched rendering for large data sets
+        function applyFiltersBatched() {
+            const serviceFilter = document.getElementById('serviceFilter').value;
+            const locationFilter = document.getElementById('locationFilter').value;
+            const actionFilter = document.getElementById('actionFilter').value;
+
+            filteredData = allData.filter(row => {
+                if (serviceFilter && row['Last Service Booked'] !== serviceFilter) return false;
+                if (locationFilter && row['Location - State'] !== locationFilter) return false;
+                if (actionFilter && row['Action'] !== actionFilter) return false;
+                return true;
+            });
+
+            // If small, render normally
+            if (filteredData.length < 200) {
+                renderTable();
+                return;
+            }
+
+            // For large data, render in batches
+            const tbody = document.getElementById('tableBody');
+            const noDataMessage = document.getElementById('noDataMessage');
+            tbody.innerHTML = '';
+            noDataMessage.style.display = filteredData.length === 0 ? 'block' : 'none';
+            if (filteredData.length === 0) return;
+
+            let batchSize = 100;
+            let i = 0;
+            function renderBatch() {
+                const rows = filteredData.slice(i, i + batchSize).map(row => {
+                    const actionValue = (row['Action'] || '').toLowerCase();
+                    let actionClass = '';
+                    if (actionValue.includes('high')) {
+                        actionClass = 'action-high';
+                    } else if (actionValue.includes('medium')) {
+                        actionClass = 'action-medium';
+                    } else if (actionValue.includes('low')) {
+                        actionClass = 'action-low';
+                    } else if (actionValue.includes('under 30')) {
+                        actionClass = 'action-under30';
+                    }
+                    const actionStatusClass = getActionStatusClass(row['Action']);
+                    return `
+                        <tr class="${actionClass}">
+                            <td>
+                                <strong>${row['Full Name'] || 'N/A'}</strong>
+                            </td>
+                            <td>
+                                <div class="contact-info">
+                                    <span class="phone-number">${row['Contact Number'] || 'No contact'}</span>
+                                    <span class="location">${row['Location - State'] || 'No location'}</span>
+                                </div>
+                            </td>
+                            <td>${row['Last Service Booked'] || 'No service recorded'}</td>
+                            <td>${formatDate(row['Last Date Of Service Booked'])}</td>
+                            <td>${row['Location - State'] || 'Not specified'}</td>
+                            <td>${row['Batch No.'] || 'N/A'}</td>
+                            <td>${row['Student / Trainer Name'] || 'N/A'}</td>
+                            <td>
+                                <span class="status-badge ${actionStatusClass}">
+                                    ${row['Action'] || 'No action specified'}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn call-btn" onclick="makeCall('${row['Contact Number']}', '${row['Full Name']}')">
+                                        📞 Call
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+                tbody.innerHTML += rows;
+                i += batchSize;
+                if (i < filteredData.length) {
+                    setTimeout(renderBatch, 0);
+                }
+            }
+            renderBatch();
         }
 
         // Update filter dropdowns
@@ -648,16 +733,22 @@
             noDataMessage.style.display = 'none';
             
             tbody.innerHTML = filteredData.map(row => {
-                const priorityClass = `priority-${row.priority}`;
+                // Determine row color class based on Action Required value
+                const actionValue = (row['Action'] || '').toLowerCase();
+                let actionClass = '';
+                if (actionValue.includes('high')) {
+                    actionClass = 'action-high';
+                } else if (actionValue.includes('medium')) {
+                    actionClass = 'action-medium';
+                } else if (actionValue.includes('low')) {
+                    actionClass = 'action-low';
+                } else if (actionValue.includes('under 30')) {
+                    actionClass = 'action-under30';
+                }
                 const actionStatusClass = getActionStatusClass(row['Action']);
-                
+
                 return `
-                    <tr class="${priorityClass}">
-                        <td>
-                            <span class="status-badge status-${row.priority === 'high' ? 'cancelled' : row.priority === 'medium' ? 'pending' : 'confirmed'}">
-                                ${row.priority.toUpperCase()}
-                            </span>
-                        </td>
+                    <tr class="${actionClass}">
                         <td>
                             <strong>${row['Full Name'] || 'N/A'}</strong>
                         </td>
